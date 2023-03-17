@@ -1,0 +1,56 @@
+<!doctype html>
+<html lang="en-US">
+  <head>
+    <title>Plantasia</title>
+    <meta charset="UTF-8" />
+    <link rel="stylesheet" href="<%== url("./stylesheets/application.css")%>">
+    <link rel="stylesheet" href="<%== url("./stylesheets/reset.css")%>">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+  </head>
+  <body>
+
+    <div class="background">
+      <% if user_signed_in? %>
+        <div class="nav-container">
+          <div>
+            <h1><a class="title" href="/discussions/1">Plantasia</a></h1>
+            <p class="sub-title">A place for plant chatter on the internet.</p>
+          </div>
+          <form method="post" action="/users/sign_out">
+            <button type="submit">sign out as <%= session[:username] %></button>
+          </form>
+        </div>
+        <div class="line"></div>
+      <% else %>
+        <div class="nav-container">
+          <div>
+            <h1><a class="title" href="/discussions/1">Plantasia</a></h1>
+            <p class="sub-title">A place for plant chatter on the internet.</p>
+          </div>
+
+          <form method="get" action="/users/sign_in">
+            <button type="submit">sign in</button>
+          </form>
+        </div>
+        <div class="line"></div>
+      <% end %>
+
+      <% if session[:success] %>
+        <div class="message success">
+          <p><%== session.delete(:success) %></p>
+        </div>
+      <% elsif session[:error] %>
+        <div class="message error">
+          <p><%== session.delete(:error) %></p>
+        </div>
+      <% end %>
+
+      <%== yield %>
+
+      <footer>
+        <div class="line"></div>
+        <p class="footer-text">@ 2022 ChristopherBrum</p>
+      </footer>
+    </div>
+  </body>
+</html> 

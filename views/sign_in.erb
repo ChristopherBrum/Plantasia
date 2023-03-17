@@ -1,0 +1,55 @@
+<% if session[:success] %>
+  <div class="message success">
+    <p><%== session.delete(:success) %></p>
+  </div>
+<% elsif session[:error] %>
+  <div class="message error">
+    <p><%== session.delete(:error) %></p>
+  </div>
+<% end %>
+
+<div class="login-container">
+  <div class="login-box">
+    <form class="login-form" method="post" action="/users/sign_in">
+      <h3 class="login-title">Sign In</h3>
+      <div>
+        <label class="login-label" for="username">
+          username:
+          <input class="login-input" type ="text" name="username_sign_in" value="<%= params.delete(:username_sign_in) %>" required>
+        </label>
+      </div>
+      <div>
+        <label class="login-label" for="password">
+          password:
+          <input class="login-input" type="password" name="password_sign_in" required>
+        </label>
+      </div>
+      <button class="login-btn" type="submit">Sign In</button>
+    </form>
+  </div>
+
+  <div class="login-box">
+    <form class="login-form" method="post" action="/users/sign_up">
+      <h3 class="login-title">Sign Up</h3>
+      <div>
+        <label class="login-label" for="username">
+          username:
+          <input class="login-input" name="username_new" value="<%= params.delete(:username_new) %>" required>
+        </label>
+      </div>
+      <div>
+        <label class="login-label" for="password">
+          password:
+          <input class="login-input" type="password" name="password_new" required>
+        </label>
+      </div>
+      <div>
+        <label class="login-label" for="password">
+          retype password:
+          <input class="login-input" type="password" name="retyped_password" required>
+        </label>
+      </div>
+      <button class="login-btn" type="submit">Sign Up</button>
+    </form>
+  </div>
+</div>

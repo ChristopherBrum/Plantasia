@@ -1,0 +1,21 @@
+<div class="topics-title-container">
+  <h1 class="topics-title">Edit Discussion</h1>
+</div>
+
+<div class="create-discussion-container">
+  <form class="login-form new-discussion-form" method="post" action="/discussion/<%== @discussion[:id] %>/update">
+    <div class="input-box">
+      <label for="title">Headline:</label>
+      <input class="new-discussion-input" type="text" name="title" value="<%= @discussion[:title] %>" required>
+    </div>
+    <div class="input-box">
+      <label for="description">Discussion Topic/Question:</label>
+      <textarea class="new-discussion-input description-text" name="description" required><%= @discussion[:description] %></textarea>
+    </div>
+    <div>
+      <button type="submit">update discussion</button>
+      <a href="/"><button>cancel</button></a>
+    </div>
+  </form>
+</div>
+

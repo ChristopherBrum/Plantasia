@@ -1,0 +1,23 @@
+<div class="topics-title-container">
+  <h1 class="topics-title">Start a new Discussion Thread</h1>
+</div>
+
+<div class="create-discussion-container">
+  <form class="login-form new-discussion-form" method="post" action="/discussions/create">
+    <div class="input-box">
+      <label for="title">Headline:</label>
+      <input class="new-discussion-input" 
+             type="text" 
+             name="title" 
+             value="<%= params[:title] %>" 
+             required>
+    </div>
+    <div class="input-box">
+      <label for="description">Discussion Topic/Question:</label>
+      <textarea class="new-discussion-input description-text" 
+                name="description"  
+                required><%= params[:description] %></textarea>
+    </div>
+    <button type="submit">post new discussion</button>
+  </form>
+</div>

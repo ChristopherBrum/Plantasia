@@ -1,0 +1,85 @@
+<div class="topics-title-container">
+  <h1 class="topics-title">Most Recent Plant Discussions:</h1>
+  <form method="get" action="/discussions/create">
+    <button>start a new discussion</button>
+  </form>
+</div>
+
+<% @discussions.each do |discussion| %>
+  <div class="card">
+    <div class="disc-comments">
+      <h4>
+        <a class="card-title" 
+           href="/discussion/<%== discussion[:id] %>/comments/1"><%= discussion[:title] %></a>
+      </h4>
+      <p class="sm-type">comments on thread: <%= comment_count(discussion[:id]) %></p>
+    </div>
+    <p class="description"><%= discussion[:description] %></p>
+    
+    <div class="head-btns adj-right">
+      <% if user_signed_in? && users_post?(discussion[:user_id].to_i) %>
+        <form method="get" action="/discussion/<%== discussion[:id] %>/update">
+          <button type="submit" class="comment-btn">edit</button>
+        </form>
+      <% end %>
+      <% if user_signed_in? &&
+            users_post?(discussion[:user_id].to_i) || 
+            admin?(@current_username) %>
+        <form method="post" action="/discussion/<%== discussion[:id] %>/destroy">
+          <button type="submit" 
+                  class="comment-btn delete-comment"
+                  onclick="return confirm('Are you sure you want to do this?')">delete</button>
+        </form>
+      <% end %>
+    </div>
+
+    <div class="disc-head-container">
+      <p class="sm-type">discussion author: 
+        <span class="user-name"><%= discussion[:username] %></span>
+      </p>
+      <div class="head-btns">
+        <p class="sm-type">
+          discussion started on <%== discussion[:date_created]%> at <%== discussion[:time_created]%>
+        </p>
+      </div>
+    </div>
+  </div>
+<% end %>
+
+<div class="pag-container">
+  <ul class="pag-list">
+
+    <% if page_one?(@page_id) %>
+      <li class="pag-link inactive-arrow"><</li>
+    <% else %>
+      <li class="pag-link">
+        <a class="arrow" href="/discussions/<%== last_page %>"><</a>
+      </li>
+    <% end %>
+
+    <% find_page_numbers(@page_id, @num_of_pages).each do |page_id| %>
+      <% if page_id == @page_id %>
+        <li class="pag-link">
+          <p class="page-btn inactive" id="active-btn"><%== page_id %></p>
+        </li>
+      <% else %>
+        <li class="pag-link">
+          <form method="get" action="/discussions/<%== page_id %>">
+            <button class="page-btn" type="submit"><%== page_id %></button>
+          </form>
+        </li>
+      <% end %>
+    <% end %>
+
+    <% if page_end?(@page_id, @num_of_pages) %>
+      <li class="pag-link inactive-arrow">></li>
+    <% else %>
+      <li class="pag-link arrow">
+        <a class="arrow" href="/discussions/<%== next_page(@page_id) %>">></a>
+      </li>
+    <% end %>
+
+  </ul>
+</div>
+<div class="spacer"></div>
+

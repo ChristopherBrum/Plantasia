@@ -1,0 +1,22 @@
+<div class="update-title comment-box">
+  <form class="login-form comment-form" 
+        method="post" 
+        action="/discussion/<%== @discussion_id %>/comment/<%== @comment_id %>/destroy">
+    <div class="input-box">
+      <button class="delete-btn" 
+              type="submit"
+              onclick="return confirm('Are you sure you want to do this?')">delete</button>
+    </div>
+  </form>
+  <form class="login-form comment-form" 
+        method="post" 
+        action="/discussion/<%== @discussion_id %>/comment/<%== @comment_id %>/update">
+    <div class="input-box">
+      <label class="topics-title">Update comment:</label>
+      <textarea class="new-discussion-input comment-text" 
+                name="comment" 
+                required><%= @comment %></textarea>
+      <button type="submit">update</button>
+    </div>
+  </form>
+</div>

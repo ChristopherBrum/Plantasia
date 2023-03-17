@@ -1,0 +1,143 @@
+<div class="card">
+  <div class="disc-comments">
+    <h4>
+      <p class="comment-page-title"><%= @discussion[:title] %></p>
+    </h4>
+    <p class="sm-type">comments on thread: <%== comment_count(@discussion[:id]) %></p>
+  </div>
+  <p class="description"><%= @discussion[:description] %></p>
+  
+  <div class="head-btns adj-right">
+    <% if user_signed_in? && users_post?(@discussion[:user_id].to_i) %>
+      <form method="get" action="/discussion/<%== @discussion[:id] %>/update">
+        <button type="submit" class="comment-btn">edit</button>
+      </form>
+    <% end %>
+    <% if user_signed_in? && users_post?(@discussion[:user_id].to_i) || admin?(@current_username) %>
+      <form method="post" action="/discussion/<%== @discussion[:id] %>/destroy">
+        <button type="submit" 
+                class="comment-btn delete-comment"
+                onclick="return confirm('Are you sure you want to do this?')">delete</button>
+      </form>
+    <% end %>
+  </div>
+
+  <div class="disc-head-container">
+    <p class="sm-type">discussion author: 
+      <span class="user-name"><%= discussion_author(@discussion[:id]) %></span>
+    </p>
+    <div class="head-btns">
+      <p class="sm-type">
+        made on <%== @discussion[:date_created]%> at <%== @discussion[:time_created]%>
+      </p>
+    </div>
+  </div>
+</div>
+
+<div class="comment-title">
+  <% if user_signed_in? %>
+    <form class="login-form comment-form" 
+          method="post" 
+          action="/discussion/<%== @discussion_id %>/comments/create">
+      <div class="input-box">
+        <% if comment_count(@discussion[:id]).to_i > 0 %>
+          <label class="topics-title">Join the Discussion! Add a comment:</label>
+        <% else %>
+          <label class="topics-title">Be the first to comment:</label>
+        <% end %>
+        <textarea class="new-discussion-input comment-text" name="comment" required></textarea>
+        <button type="submit">post new comment</button>
+      </div>
+    </form>
+  <% else %>
+    <form class="login-form comment-form" 
+          method="get" 
+          action="/discussion/<%== @discussion_id %>/comments/create">
+      <div class="input-box">
+        <button type="submit">comment on this discussion</button>
+      </div>
+    </form>
+  <% end%>
+</div>
+
+<% if @page_id == 1%>
+  <div class="recent">
+    <p class="topics-title">Recent comments:</p>
+  </div>
+<% end %>
+
+<div class="comment-container">
+  <% @comments.each do |comment| %>
+    <div class="comment-card">
+      <div class="head-container">
+        <p class="sm-type">comment author: 
+          <span class="user-name"><%= comment[:username] %></span>
+        </p>
+        <div class="head-btns">
+          <p class="sm-type">
+            made on <%== comment[:date_created]%> at <%== comment[:time_created]%>
+          </p>
+        </div>
+      </div>
+      <p class="comment"><%= comment[:comment].capitalize %></p>
+
+      <div class="head-btns adj-right">
+        <% if user_signed_in? && users_post?(comment[:user_id].to_i) %>
+          <form method="get" 
+                action="/discussion/<%== @discussion_id %>/comment/<%== comment[:id] %>/update">
+            <button class="comment-btn" 
+                    type="submit">edit</button>
+          </form>
+        <% end %>
+        <% if user_signed_in? && users_post?(comment[:user_id].to_i) ||
+              admin?(@current_username) %>
+          <form method="post" 
+                action="/discussion/<%== @discussion_id %>/comment/<%== comment[:id] %>/destroy">
+            <button class="comment-btn delete-comment" 
+                    type="submit" 
+                    onclick="return confirm('Are you sure you want to do this?')">delete</button>
+          </form>
+        <% end %>
+      </div>
+
+    </div>
+  <% end %>
+</div>
+
+<div class="pag-container">
+  <ul class="pag-list">
+
+    <% if page_one?(@page_id) %>
+      <li class="pag-link inactive-arrow"><</li>
+    <% else %>
+      <li class="pag-link">
+        <a class="arrow" href="/discussion/<%== @discussion_id %>/comments/<%== last_page %>"><</a>
+      </li>
+    <% end %>
+
+    <% find_page_numbers(@page_id, @num_of_pages).each do |page_id| %>
+      <% if page_id == @page_id %>
+        <li class="pag-link">
+          <p class="page-btn inactive" id="active-btn"><%== page_id %></p>
+        </li>
+      <% else %>
+        <li class="pag-link">
+          <form method="get" action="/discussion/<%== @discussion_id %>/comments/<%== page_id %>">
+            <button class="page-btn" type="submit"><%== page_id %></button>
+          </form>
+        </li>
+      <% end %>
+    <% end %>
+
+    <% if page_end?(@page_id, @num_of_pages) %>
+      <li class="pag-link inactive-arrow">></li>
+    <% else %>
+      <li class="pag-link">
+        <a  class="arrow" href="/discussion/<%== @discussion_id %>/comments/<%== next_page(@page_id) %>">></a>
+      </li>
+    <% end %>
+
+  </ul>
+</div>
+
+<div class="spacer"></div>
