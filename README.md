@@ -1,6 +1,6 @@
 # Plantasia
 
-Plantasia is a message board application for people who love plants. A signed-in user can start a discussion about any plant topic they desire, and the community can chime in with their thoughts. For example, a discussion could be asking for advice on growing a certain plant, giving advice about plant parenting, or sharing anecdotal information about something plant related. Each discussion contains comments relevant to the particular discussion. Users can edit and delete their discussions and comments, but only an admin can delete other users discussions and comments. Built with vanilla JavaScript.
+Plantasia is a message board application for people who love plants. A signed-in user can start a discussion about any plant topic they desire, and the community can chime in with their thoughts. For example, a discussion could be asking for advice on growing a certain plant, giving advice about plant parenting, or sharing anecdotal information about something plant related. Each discussion contains comments relevant to the particular discussion. Users can edit and delete their discussions and comments, but only an admin can delete other users discussions and comments. Built with Ruby, Sinatra, and CSS.
 
 ---
 
